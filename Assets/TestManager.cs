@@ -2,16 +2,14 @@
 using System.Collections.Generic;
 using System.Collections;
 using System.Reflection;
+using System;
 using UnityEngine;
 
 public class TestManager {
 
-    System.Type classType;
-
     public TestManager()
     {
-        classType = GetType();
-        BeginTests();
+        //BeginTests();
     }
 
     float tempoInicio;
@@ -19,7 +17,7 @@ public class TestManager {
     Hashtable errors;
 
 
-    private void BeginTests()
+    protected void BeginTests()
     {
         float tempoInicio = Time.time;
         Regex regex = new Regex(@"^Test.*$");
@@ -61,7 +59,7 @@ public class TestManager {
     public void AssertEquals(object saida, object esperado)
     {
         string trace = StackTraceUtility.ExtractStackTrace();
-        if (saida != esperado)
+        if (!saida.Equals(esperado))
         {
             tmpErrors.Add(String(trace, saida, esperado));
         }

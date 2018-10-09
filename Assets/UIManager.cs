@@ -9,26 +9,30 @@ public class UIManager : MonoBehaviour {
     public Goal goal2;
     public Text[] pointTexts = new Text[2];
     public Rigidbody2D ball;
-    int[] points = new int[2];
+    [HideInInspector] public int[] points = new int[2];
 
 	// Use this for initialization
 	void Start () {
         goal1.point = Point;
         goal2.point = Point;
+        StartCoroutine(LateStart());
 	}
 
-    void Point(int player)
-    {
+    IEnumerator LateStart() {
+        yield return null;
+        new Tester(this);
+    }
 
-        new Tester();
+    public void Point(int player)
+    {
         pointTexts[player].text = (++points[player]).ToString();
         Reset();
     }
 
-    private void Reset()
+    public void Reset()
     {
         ball.velocity = new Vector2(Random.value < 0.5f ? -2 : 2, (Random.value * 2 - 1) * 2);
-        ball.gameObject.transform.localPosition = Vector3.zero;
+        ball.transform.localPosition = Vector3.zero;
     }
 
     // Update is called once per frame
